@@ -48,6 +48,10 @@ The module is connected to the Arduino Nano as follows :
 
 You'll need twelve 2N7000 mosfet, twelve 220 ohms resistors and twelve 10k ohms resistors for the Arduino PCB.
 
+**Be careful !**
+
+The pads use capacitive sensing. This means that if you want to tidy up the wiring during your repair, make sure **not to** bundle the wires connected to the pads together, as this may cause the pads to be constantly triggered.
+
 **Project limitations**
 
 There are a few limitations to this approach.
