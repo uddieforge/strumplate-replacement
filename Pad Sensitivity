@@ -1,0 +1,44 @@
+## Adjusting pad sensitivity
+
+Sensitivity is controlled by one constant at the top of the sketch:
+
+```cpp
+const int touchThreshold = 6;
+```
+
+### How it works
+
+For each pad, the sketch reads a raw capacitive value with `cap.filteredData(pad)`. This value **drops when a finger touches the pad**. A pad is considered touched when its value falls **below** `touchThreshold`.
+
+### How to change it
+
+| Goal                | Change                        | Side effect                 |
+|---------------------|-------------------------------|-----------------------------|
+| More sensitive pads | Increase the value (e.g. `8`) | More risk of false triggers |
+| Less sensitive pads | Decrease the value (e.g. `4`) | Needs a firmer touch        |
+
+### Finding the right value
+
+1. Print the raw values in the Serial Monitor (9600 baud):
+
+   ```cpp
+   Serial.println(cap.filteredData(pad));
+   ```
+
+2. Note the value **at rest** and the value **while touching**.
+3. Set `touchThreshold` **between** the two.
+
+In our tests, the resting value was about 8–14 and dropped to 0–3 when touched, so a threshold of `6` works well. Do not set it too close to the resting value, or pads will trigger on their own.
+
+### Optional: one threshold per pad
+
+If some pads behave differently (different track length or pad size), use an array instead:
+
+```cpp
+const int touchThresholds[numPads] = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+```
+
+Then replace the comparison in `loop()` with:
+
+```cpp
+bool isTouched = filtered < touchThresholds[pad];
