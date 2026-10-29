@@ -15,7 +15,7 @@ The original strumplate relies on a system of layered electrical contacts. One l
 
 The layer containing the conductive tracks includes both individual tracks for each playable note on the strumplate and ground-connected tracks. When a "note track" is connected to ground, it triggers a note on the Omnichord.
 
-My replacement solution
+**My replacement solution**
 
 Reproducing an identical strumplate from scratch was practically impossible. I therefore decided to find a way to recreate an experience similar to that of the original strumplate, without attempting to reproduce the original component itself.
 
@@ -26,14 +26,27 @@ I had a PCB manufactured to match the shape of the original strumplate. This PCB
 Each pad is connected to an HW-017 module for Arduino, a capacitive touch-sensing module (often based on the MPR121 chip).
 
 The module is itself connected to an Arduino Nano.
-
 The Arduino Nano's digital outputs then drive the gates of 12 MOSFETs. The source of each MOSFET is connected to ground, and each drain is connected to one of the original strumplate's tracks. When the Arduino triggers a MOSFET's gate, the corresponding original strumplate track is connected to ground, producing a sound.
 
 **To summarize the connections:**
 
 Strumplate PCB → HW-017 module → Arduino Nano → MOSFETs → Original strumplate connectors
-
 To power the Arduino, you can connect it directly to the Omnichord's 12 V power supply rail.
+
+**Wiring**
+
+Here is the wiring : 
+
+Every wire from the original strumplate should be connected to the 1-11 inputs of the HW-017 module. 
+The module is connected to the Arduino Nano as follows : 
+- The 3.3V of the module is connected to the 3.3V of the Arduino board
+- The ADD of the module is connected to GND
+- The SDA is connected to the A4 input of the Arduino board
+- The SCL is connected to the A5 input of the Arduino board
+- IRQ is not connected
+- GND is connected to the GND of the Arduino board. 
+
+You'll need twelve 2N7000 mosfet, twelve 220 ohms resistors and twelve 10k ohms resistors for the Arduino PCB.
 
 **Project limitations**
 
